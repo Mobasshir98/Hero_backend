@@ -30,7 +30,7 @@ export const login = async (req,res,next)=>{
         const user = await User.findOne({email}).select("+password")
         if(!user) return next(new CustomError("User Doesn't Exist",409))
         
-        const isCorrect = comparePassword(password,user.password)
+        const isCorrect = await comparePassword(password,user.password)
         
         if(!isCorrect){
             return next(new CustomError("Invalid email or Password",401))
