@@ -10,7 +10,7 @@ router.post('/login',login)
 router.post('/logout',logout)
 router.get('/me',auth,myProfile)
 router.post('/addCourse',auth,addCourse)
-router.post('/removeCourse',auth,removeCourse)
+router.delete('/removeCourse',auth,removeCourse)
 
 
 
