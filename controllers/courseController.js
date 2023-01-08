@@ -2,6 +2,7 @@ import Assignments from '../models/Assignments.js';
 import course  from '../models/Courses.js'
 import getDataUri from '../utils/dataUri.js';
 import CustomError from '../utils/errorHandler.js';
+import cloudinary from 'cloudinary';
 
 export const getCourses = async (req,res,next)=>{
     try{
@@ -32,9 +33,10 @@ export const createCourse = async (req,res,next)=>{
     // console.log(file)
 
     const fileUri= getDataUri(file)
+    const mycloud = await cloudinary.v2.uploader.upload(fileUri.content)
 
     await course.create({
-        title,description,creator,image:fileUri.base64
+        title,description,creator,image:mycloud.secure_url
     })
     res.status(201).json({
         success:true,
