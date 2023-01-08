@@ -43,8 +43,8 @@ export const login = async (req, res, next) => {
 export const logout = (req, res, next) => {
   res
     .status(200)
-    .cookie("token", null, {
-      expires: new Date(Date.now()),
+    .clearCookie("token", {
+    //   expires: new Date(Date.now()),
       httpOnly: true,
       secure: true,
       sameSite: "none",
