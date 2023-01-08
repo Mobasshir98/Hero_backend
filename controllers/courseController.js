@@ -19,7 +19,7 @@ export const getCourses = async (req,res,next)=>{
 
     }
     catch(err){
-        next(err.message) 
+        next( new CustomError('No Courses found',404)) 
     }
     
 } 

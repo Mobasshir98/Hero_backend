@@ -1,10 +1,10 @@
+import cors from 'cors'
 import express from 'express'
 import {config} from 'dotenv'
 import courseRoutes from './routes/courseRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { ErrorHandler } from './middlewares/ErrorHandler.js'
 import cookieParser from 'cookie-parser'
-import cors from 'cors'
 config({
     path:"./config/config.env"
 })
