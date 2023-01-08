@@ -32,7 +32,9 @@ export const login = async (req,res,next)=>{
         
         const isCorrect = comparePassword(password,user.password)
         
-        if(!isCorrect) return next(new CustomError("Invalid email or Password",401))
+        if(!isCorrect){
+            return next(new CustomError("Invalid email or Password",401))
+        }
         
 
         sendToken(res,user,"Login Successfully",200)
