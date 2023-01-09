@@ -3,6 +3,7 @@ import course  from '../models/Courses.js'
 import getDataUri from '../utils/dataUri.js';
 import CustomError from '../utils/errorHandler.js';
 import cloudinary from 'cloudinary';
+import csv from 'csvtojson'
 
 export const getCourses = async (req,res,next)=>{
     try{
@@ -65,6 +66,38 @@ export const createAssignment = async (req,res,next)=>{
     }
     
 } 
+
+export const csvUpload = async (req,res,next)=>{
+    try{
+        csv().fromFile(req.file.path).then(async (jsonObj)=>{
+           const assignments = await Assignments.find()
+           if(assignments.length>0){
+            const newAssignments = [...assignments,...jsonObj]
+            const uniqAssignments = [
+                ...new Map(
+                    newAssignments.map((item)=>[item["question"],item])
+                ).values(),
+            ]
+            await Assignments.deleteMany({})
+            await Assignments.create(uniqAssignments)
+            
+           }
+           else{
+            await Assignments.create(jsonObj)
+           }
+        })
+
+        res.status(201).json({
+            success:true,
+            message:"Assignment Created Successfully"
+        })
+
+    } 
+    catch{
+        return next(new CustomError("Please add .CSV file ",400) )
+
+    }
+}
 
 export const getAssignment = async (req,res,next)=>{
     try{
